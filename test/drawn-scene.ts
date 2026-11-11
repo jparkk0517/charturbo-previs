@@ -5,8 +5,8 @@
  * engine: world = parentWorld * T * R * S over the chain, then mesh matrix x vertex (rigid) or linear-blend skinning
  * with the last joint palette (skinned). Used as an independent reference for posed bounds / ground lock.
  */
-import { Charturbo, type WasmCharturboEngineBackend } from '../sdk/charturbo';
-import { eulerYXZToQuat } from '../previs/evaluate';
+import { Charturbo, type WasmCharturboEngineBackend } from 'charturbo';
+import { eulerYXZToQuat } from '../src/evaluate';
 
 type V3 = [number, number, number];
 

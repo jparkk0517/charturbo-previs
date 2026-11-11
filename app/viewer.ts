@@ -1,9 +1,9 @@
 /**
  * Browser previs viewer: real-time playback of a previs doc (or a playlist of docs) in a canvas, no encoding.
- * Run: `npm run previs:viewer` in web/.
+ * Run: `npm run previs:viewer` (repo root).
  *
  * SOURCES
- *   Server: the dev server root is web/previs, so web/previs/examples/** is served as static files. The doc menu
+ *   Server: the dev server root is the repo root (viewer.html), so examples/** is served as static files. The doc menu
  *     lists examples/*.json and examples/film/*.json (vite `import.meta.glob`, names only, nothing is imported).
  *     A relative `model.src` resolves against the doc URL (`new URL(src, docUrl)`), so a .gltf loads its .bin /
  *     images by URL. `?doc=examples/film/s03-gate.json&look=textured` opens one directly.
@@ -23,24 +23,17 @@
  * Anti-aliasing: MSAA x4 (`antialias: true`) in both looks, the render script's default (render.html without aa=0).
  * Automation hook: `window.__viewer` (state(), perf(), loads; used by the scratch browser checks).
  */
-import { Charturbo } from 'charturbo';
-import { docDuration } from '../src/previs/evaluate';
-import { loadPrevisPlayer, type PrevisPlayer, type PrevisPlayerLook } from '../src/previs/player';
+import { Charturbo, type GltfDecoders, type GltfSource } from 'charturbo';
+import { docDuration } from '../src/evaluate';
+import { loadPrevisPlayer, type PrevisPlayer, type PrevisPlayerLook } from '../src/player';
 import { gltfExtensions, loadDecodersFor } from './decoders';
-import type { GltfDecoders, GltfSource } from '../src/sdk/scene-gltf';
-import type { Issue, PrevisDoc } from '../src/previs/types';
-import { modelSrcsToLoad } from '../src/previs/models';
-import { validateDoc } from '../src/previs/validate';
+import type { Issue, PrevisDoc } from '../src/types';
+import { modelSrcsToLoad } from '../src/models';
+import { validateDoc } from '../src/validate';
 
-declare global {
-  interface ImportMeta {
-    glob(patterns: string | string[], options?: { query?: string }): Record<string, () => Promise<unknown>>;
-  }
-}
-
-// Served example docs (keys only: './examples/film/s01-hall.json')
-const SERVER_DOCS = Object.keys(import.meta.glob(['./examples/*.json', './examples/film/*.json'], { query: '?url' }))
-  .map((k) => k.replace(/^\.\//, ''))
+// Served example docs (keys only: '../examples/film/s01-hall.json', listed relative to the page at the repo root)
+const SERVER_DOCS = Object.keys(import.meta.glob(['../examples/*.json', '../examples/film/*.json'], { query: '?url' }))
+  .map((k) => k.replace(/^\.\.\//, ''))
   .sort();
 
 const $ = <T extends HTMLElement>(id: string): T => document.getElementById(id) as T;

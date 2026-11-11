@@ -1,10 +1,10 @@
-// S03 봉인의 문 (35 s). node --experimental-strip-types previs/examples/film/s03-gate.gen.ts
+// S03 봉인의 문 (35 s). node --experimental-strip-types examples/film/s03-gate.gen.ts
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { applyMotion, walk, raiseArm } from '../../../src/previs/index.ts';
-import type { MotionFragments, PrevisDoc, PrevisNode, PrevisMarker, Vec3, Track } from '../../../src/previs/index.ts';
+import { applyMotion, walk, raiseArm } from '../../src/index.ts';
+import type { MotionFragments, PrevisDoc, PrevisNode, PrevisMarker, Vec3, Track } from '../../src/index.ts';
 import { AVOID, BG, C, EMBER_D, FPS, LIGHT, LOOK, PILLAR_FLAT, ROLES, SIZE, SRC, STONE, character, flatOnly, lerp, sample, writeDoc } from './common.ts';
-import type { Rgb } from '../../../src/previs/index.ts';
+import type { Rgb } from '../../src/index.ts';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const GATE_X = 6; // wall plane x = 6, hall at x < 6, crypt at x > 6

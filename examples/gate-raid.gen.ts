@@ -1,5 +1,5 @@
 // Generator for gate-raid.json (original dungeon-gate hunter action previs, 8 s, 1280x720).
-// Run from web/: node --experimental-strip-types previs/examples/gate-raid.gen.ts
+// Run from the repo root: node --experimental-strip-types examples/gate-raid.gen.ts
 // Optional env HANDOFF_OUT=<path.md> also writes the Korean handoff (upload order + prompt).
 //
 // Showcase of the authoring features: jointed hero (pickUp, crouch), re-parented props (tracks.parent: the sword
@@ -8,8 +8,8 @@
 // Textured pass (look.show, lighting, model.retarget from the hero mannequin and from the walker giant model; see the
 // section "textured pass" below): the blocks above are flat-only and lit CC0 models stand in for them, so beauty / depth
 // stay the flat blockout:
-//   npm run previs:render -- previs/examples/gate-raid.json --stills=0.75,3.8,5.3,7.9 --out=out/ --passes=beauty,textured
-//   npm run previs:render -- previs/examples/gate-raid.json out/raid.mp4 --split-shots --passes=beauty,textured
+//   npm run previs:render -- examples/gate-raid.json --stills=0.75,3.8,5.3,7.9 --out=out/ --passes=beauty,textured
+//   npm run previs:render -- examples/gate-raid.json out/raid.mp4 --split-shots --passes=beauty,textured
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -29,7 +29,7 @@ import {
   validateDoc,
   walk,
   worldTransform,
-} from '../../src/previs/index.ts';
+} from '../src/index.ts';
 import type {
   JointFrame,
   MotionFragments,
@@ -41,7 +41,7 @@ import type {
   Shot,
   Track,
   Vec3,
-} from '../../src/previs/index.ts';
+} from '../src/index.ts';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const FPS = 24;

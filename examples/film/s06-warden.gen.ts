@@ -1,10 +1,10 @@
-// 불씨지기 S06 수문장 (The Warden), 45 s. Run from web/: node --experimental-strip-types previs/examples/film/s06-warden.gen.ts
+// 불씨지기 S06 수문장 (The Warden), 45 s. Run from the repo root: node --experimental-strip-types examples/film/s06-warden.gen.ts
 // Haon enters the deepest vault (west -> east, screen left -> right), sees the altar far away; the giant warden (KayKit
 // Skeleton_Warrior, 3.6 m) stands inactive in the middle, awakens, walks at her with heavy steps and chops where she
 // stands; she dodges back just before impact and runs to hide behind a pillar; the warden turns to that pillar.
 // Shared layout / props / FK: ./s06s07-set.ts (S07 starts from this end state).
-import { applyMotion, evaluateFrame, quatToEulerYXZ, walk, worldTransform } from '../../../src/previs/index.ts';
-import type { MotionFragments, PrevisDoc, PrevisMarker, PrevisNode, Shot, Track, Vec3 } from '../../../src/previs/index.ts';
+import { applyMotion, evaluateFrame, quatToEulerYXZ, walk, worldTransform } from '../../src/index.ts';
+import type { MotionFragments, PrevisDoc, PrevisMarker, PrevisNode, Shot, Track, Vec3 } from '../../src/index.ts';
 import { AVOID, BG, FPS, ROLES, SIZE, add, character, flatOnly, frameTimes, lerp, lerp3, r4, sample, scale, writeDoc, yawTo } from './common.ts';
 import {
   C_SPOT, D_SPOT, HERE, WALK_RATE, WY, ALTAR, axeNode, breathe, carryLeft, dist2,

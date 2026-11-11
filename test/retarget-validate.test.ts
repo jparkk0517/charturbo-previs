@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { createMannequin, jointedJointIds } from '../previs/mannequin';
-import type { PrevisDoc, PrevisNode } from '../previs/types';
-import { validateDoc } from '../previs/validate';
+import { createMannequin, jointedJointIds } from '../src/mannequin';
+import type { PrevisDoc, PrevisNode } from '../src/types';
+import { validateDoc } from '../src/validate';
 
 const GREY: [number, number, number] = [0.5, 0.5, 0.5];
 

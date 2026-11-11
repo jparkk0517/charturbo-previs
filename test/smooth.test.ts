@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { evalTrack, evaluateFrame } from '../previs/evaluate';
-import type { PrevisDoc, PrevisNode, Track, Vec3 } from '../previs/types';
-import { validateDoc } from '../previs/validate';
+import { evalTrack, evaluateFrame } from '../src/evaluate';
+import type { PrevisDoc, PrevisNode, Track, Vec3 } from '../src/types';
+import { validateDoc } from '../src/validate';
 
 const S = 'smooth' as const;
 const num = (pts: Array<[number, number]>): Track<number> => pts.map(([t, v]) => ({ t, v, ease: S }));

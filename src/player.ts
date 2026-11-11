@@ -10,7 +10,7 @@
  *   out = linear_to_srgb(srgb_to_linear(base) * emissive) = base,
  * which is exact at every viewing angle (the sRGB round trip is lossless).
  * Shadows, helpers (grid/axes), the graph and rigid physics are off. Alpha is exact.
- * MEASURED (previews rendered in headless Chrome, WebGL2 and WebGPU, web/previs/examples/flat-swatches.json):
+ * MEASURED (previews rendered in headless Chrome, WebGL2 and WebGPU, examples/flat-swatches.json):
  * error <= 0.5/255 on face-on swatches and also on faces tilted 40, 61 and 77 degrees.
  * The `classic` model was rejected: its hard-coded fresnel rim 0.14*(1-N.V)^3 lifts every channel
  * (measured 0.5/255 at 40 deg, 5/255 at 61 deg, 16/255 at 77 deg).
@@ -235,9 +235,17 @@
  *     `getLighting` values from before the player, and the theme. (Graph, rigid physics and helpers are
  *     switched off by both looks and restored by neither, as before.)
  */
-import type { Charturbo, ObjectMaterialDescriptor, PrimitiveShape } from '../sdk/charturbo';
-import type { GltfSource, GltfLoadResult, GltfDecoders } from '../sdk/scene-gltf';
-import type { GltfAnimator, GltfClipWeight, GltfNodeRotation } from '../sdk/scene-gltf-anim';
+import type {
+  Charturbo,
+  GltfAnimator,
+  GltfClipWeight,
+  GltfDecoders,
+  GltfLoadResult,
+  GltfNodeRotation,
+  GltfSource,
+  ObjectMaterialDescriptor,
+  PrimitiveShape,
+} from 'charturbo';
 import {
   clipWeightsAt,
   createParentResolver,

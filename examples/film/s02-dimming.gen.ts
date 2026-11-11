@@ -1,4 +1,4 @@
-// 불씨지기 S02 "꺼져 가는 불씨" (40 s). Run from web/: node --experimental-strip-types previs/examples/film/s02-dimming.gen.ts
+// 불씨지기 S02 "꺼져 가는 불씨" (40 s). Run from the repo root: node --experimental-strip-types examples/film/s02-dimming.gen.ts
 // Starts in S01's end state (s01s02-set.ts): 하온 and 도원 face each other across the pedestal, the ember alive on it.
 // The ember flickers and shrinks (size pulses + a swap to a dim orb), a nearby skeleton stirs (Lie_StandUp started
 // and blended back to Lie_Pose), 하온's head snaps to it, 도원 steps aside and points at the sealed gate, 하온 looks,
@@ -6,8 +6,8 @@
 // it brightens a little, and she walks toward the gate carrying it in front of her belly while 도원 watches.
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { applyMotion, evalTrack, evaluateFrame, pickUp, raiseArm, walk, worldTransform } from '../../../src/previs/index.ts';
-import type { MotionFragments, PrevisDoc, PrevisMarker, PrevisNode, Quat, Shot, Track, Vec3 } from '../../../src/previs/index.ts';
+import { applyMotion, evalTrack, evaluateFrame, pickUp, raiseArm, walk, worldTransform } from '../../src/index.ts';
+import type { MotionFragments, PrevisDoc, PrevisMarker, PrevisNode, Quat, Shot, Track, Vec3 } from '../../src/index.ts';
 import { AVOID, BG, C, EMBER_D, FPS, LOOK, ROLES, SIZE, add, character, flatOnly, r4, sample, sub, writeDoc, yawTo } from './common.ts';
 import {
   EMBER_LOW_D, EMBER_PED_D, GATE, HAON_END, HAON_END_YAW, MENTOR_POS, MENTOR_YAW, PED, SLEEPERS, emberOnPed, hallLighting, hallSet, sleeper,

@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-// Scaffold a previs generator: node previs/new.mjs <name>   (usually: npm run previs:new -- <name>)
+// Scaffold a previs generator: node scripts/new.mjs <name>   (usually: npm run previs:new -- <name>)
 //
-// Writes previs/examples/<name>.gen.ts from a minimal template (one mannequin, one shot, one role).
+// Writes examples/<name>.gen.ts from a minimal template (one mannequin, one shot, one role).
 // Refuses to overwrite an existing generator (exit 2). Name must match ^[a-z0-9][a-z0-9-]*$ (exit 2).
-// Then run the generator the documented way (from web/):
-//   node --experimental-strip-types previs/examples/<name>.gen.ts      -> writes previs/examples/<name>.json
+// Then run the generator the documented way (from the repo root):
+//   node --experimental-strip-types examples/<name>.gen.ts      -> writes examples/<name>.json
 // and render it:
-//   npm run previs:render -- previs/examples/<name>.json --still=0.5 --out=<out.png>
+//   npm run previs:render -- examples/<name>.json --still=0.5 --out=<out.png>
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -16,14 +16,14 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const NAME_RE = /^[a-z0-9][a-z0-9-]*$/;
 
 const TEMPLATE = `// Generator for __NAME__.json (scaffold from \`npm run previs:new -- __NAME__\`).
-// Run from web/: node --experimental-strip-types previs/examples/__NAME__.gen.ts
-// Writes previs/examples/__NAME__.json next to this file; render it with
-//   npm run previs:render -- previs/examples/__NAME__.json --still=0.5 --out=__NAME__.png
+// Run from the repo root: node --experimental-strip-types examples/__NAME__.gen.ts
+// Writes examples/__NAME__.json next to this file; render it with
+//   npm run previs:render -- examples/__NAME__.json --still=0.5 --out=__NAME__.png
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createMannequin, validateDoc } from '../../src/previs/index.ts';
-import type { PrevisDoc, Rgb } from '../../src/previs/index.ts';
+import { createMannequin, validateDoc } from '../src/index.ts';
+import type { PrevisDoc, Rgb } from '../src/index.ts';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const FPS = 24;
@@ -87,7 +87,7 @@ function main() {
   fs.writeSync(fd, TEMPLATE.split('__NAME__').join(name));
   fs.closeSync(fd);
   console.log('wrote', target);
-  console.log(`next: node --experimental-strip-types previs/examples/${name}.gen.ts`);
+  console.log(`next: node --experimental-strip-types examples/${name}.gen.ts`);
 }
 
 main();

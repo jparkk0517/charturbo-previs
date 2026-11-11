@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { eulerYXZToQuat } from '../previs/evaluate';
-import type { Quat } from '../previs/evaluate';
-import type { PrevisDoc, Vec3 } from '../previs/types';
-import { validateDoc } from '../previs/validate';
-import { createMannequin } from '../previs/mannequin';
+import { eulerYXZToQuat } from '../src/evaluate';
+import type { Quat } from '../src/evaluate';
+import type { PrevisDoc, Vec3 } from '../src/types';
+import { validateDoc } from '../src/validate';
+import { createMannequin } from '../src/mannequin';
 import {
   modelSourceFrames,
   modelSourceRest,
@@ -13,8 +13,8 @@ import {
   RETARGET_SOURCE_MAPS,
   UE_RETARGET_MAP,
   WALKER_SOURCE_MAP,
-} from '../previs/retarget';
-import type { RetargetRig } from '../previs/retarget';
+} from '../src/retarget';
+import type { RetargetRig } from '../src/retarget';
 import { quaterniusRig } from './fixtures/quaternius-rig';
 import { walkerRig } from './fixtures/walker-rig';
 

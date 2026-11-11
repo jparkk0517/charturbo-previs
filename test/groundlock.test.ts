@@ -1,16 +1,16 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it, vi } from 'vitest';
-import { loadPrevisPlayer } from '../previs/player';
-import type { PrevisDoc, PrevisNode, Track, Vec3 } from '../previs/types';
-import { GltfAnimator, hasGltfGeometry } from '../sdk/scene-gltf-anim';
+import { loadPrevisPlayer } from '../src/player';
+import type { PrevisDoc, PrevisNode, Track, Vec3 } from '../src/types';
+import { GltfAnimator } from 'charturbo';
 import { drawnScene } from './drawn-scene';
 
 // model.groundLock with the real loader, animator and player over a recording backend: the lowest drawn vertex
 // (engine-style world chain x mesh matrix / skin, recomputed independently by drawnScene) must be at y = 0.
 
 const bytes = (name: string): ArrayBuffer => {
-  const b = readFileSync(fileURLToPath(new URL(`../../previs/examples/models/${name}`, import.meta.url)));
+  const b = readFileSync(fileURLToPath(new URL(`../examples/models/${name}`, import.meta.url)));
   return b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength) as ArrayBuffer;
 };
 const resolveModel = (src: string) => bytes(src.replace(/^models\//, ''));
@@ -288,14 +288,22 @@ describe('previs model.groundLock', () => {
   });
 
   it('only ground-locked models keep CPU vertices (readback)', async () => {
+    // Public-API check: only the ground-locked load asks for `readback: true`, and dispose frees every load
+    // (the SDK's internal hasGltfGeometry is not exported)
     const scene = drawnScene();
     const results: object[] = [];
+    const readback: boolean[] = [];
     const load = scene.sdk.loadGltf.bind(scene.sdk);
-    scene.sdk.loadGltf = ((...a: Parameters<typeof load>) => load(...a).then((r) => (results.push(r), r))) as typeof load;
+    scene.sdk.loadGltf = ((...a: Parameters<typeof load>) => {
+      readback.push(a[1]?.readback === true);
+      return load(...a).then((r) => (results.push(r), r));
+    }) as typeof load;
+    const disposed = vi.spyOn(scene.sdk, 'disposeGltf');
     const player = await loadPrevisPlayer(scene.sdk, doc([walker('on', true), walker('off', false, { position: [2, 0.875, 0] })]), { resolveModel });
-    expect(results.map((r) => hasGltfGeometry(r)).sort()).toEqual([false, true]);
+    expect(readback.sort()).toEqual([false, true]);
     player.dispose();
-    expect(results.some((r) => hasGltfGeometry(r))).toBe(false);
+    expect(results.every((r) => disposed.mock.calls.some(([d]) => d === r))).toBe(true);
+    disposed.mockRestore();
   });
 
   it('without groundLock (absent or false) the engine calls are the same, and a static model gets no animator', async () => {

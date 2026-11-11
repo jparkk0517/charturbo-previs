@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { validateDoc } from '../previs/validate';
+import { validateDoc } from '../src/validate';
 
 const cam = () => ({
   position: [{ t: 0, v: [0, 1, 5] }],
@@ -161,7 +161,7 @@ describe('look membership', () => {
 });
 
 describe('examples', () => {
-  const dir = fileURLToPath(new URL('../../previs/examples/', import.meta.url));
+  const dir = fileURLToPath(new URL('../examples/', import.meta.url));
   for (const f of readdirSync(dir).filter((x) => x.endsWith('.json'))) {
     it(`validates ${f}`, () => {
       const r = validateDoc(JSON.parse(readFileSync(dir + f, 'utf8')));

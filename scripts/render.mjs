@@ -1,16 +1,16 @@
 #!/usr/bin/env node
-// Offline previs renderer: previs doc JSON -> headless Chrome (previs/render.html, real Charturbo
+// Offline previs renderer: previs doc JSON -> headless Chrome (render.html, real Charturbo
 // engine) -> PNG frames -> ffmpeg -> mp4.
 //
-//   node scripts/previs-render.mjs <doc.json> <out> [--format=mp4|mp4-lossless|png-seq] [--backend=webgpu|webgl2]
+//   node scripts/render.mjs <doc.json> <out> [--format=mp4|mp4-lossless|png-seq] [--backend=webgpu|webgl2]
 //        [--frames=N] [--shot=<id> | --range=<a>..<b>] [--handles=<seconds>] [--split-shots]
 //        [--force] [--camera-json=<file>] [--chrome=path] [--no-aa]
 //        [--passes=<beauty,depth,textured>] [--depth-range=shot|frame|<near>..<far>] [--depth-encoding=inverse|linear] [--depth-near-clip=<meters>]
-//   node scripts/previs-render.mjs <doc.json> --still=<seconds> --out=<out.png> [--backend=..] [--passes=..]
-//   node scripts/previs-render.mjs <doc.json> --stills=<s>,<s>,... --out=<dir | pattern.png> [--backend=..] [--passes=..]
-//   node scripts/previs-render.mjs <doc.json> --contact=<cols>x<rows> --out=<sheet.png> [--shot=<id> | --range=<a>..<b>]
+//   node scripts/render.mjs <doc.json> --still=<seconds> --out=<out.png> [--backend=..] [--passes=..]
+//   node scripts/render.mjs <doc.json> --stills=<s>,<s>,... --out=<dir | pattern.png> [--backend=..] [--passes=..]
+//   node scripts/render.mjs <doc.json> --contact=<cols>x<rows> --out=<sheet.png> [--shot=<id> | --range=<a>..<b>]
 //        [--tile-width=<px>] [--backend=..] [--no-aa]
-//   node scripts/previs-render.mjs --inspect=<model.glb|model.gltf> [--json] [--backend=..]
+//   node scripts/render.mjs --inspect=<model.glb|model.gltf> [--json] [--backend=..]
 //
 // --format    mp4 (default: libx264 -crf 14 yuv420p BT.709), mp4-lossless (libx264rgb -crf 0 -preset veryslow, RGB,
 //             0 off-palette pixels; needs an ffmpeg with libx264rgb, else exit 1; many players cannot play RGB H.264)
@@ -26,7 +26,7 @@
 // --camera-json=FILE  per rendered frame { frame, t, shot, eye, target, up, roll, fovDeg, aspect, near, far, worldScale,
 //             view, projection } under { units, frames: [...] }: eye / target in METERS, near / far / view / projection
 //             in ENGINE units (= meters * worldScale), matrices column-major (clip = projection * view * [p,1]),
-//             reverse-Z perspective_rh(fov, aspect, far, near) (see previs/camera.ts, mirrors the engine camera).
+//             reverse-Z perspective_rh(fov, aspect, far, near) (see app/camera.ts, mirrors the engine camera).
 //             A frame rendered twice (overlapping shots with handles) appears once.
 // --force    png-seq only: delete existing frame_NNNNNN.png files (only those) in the target directory; without it a
 //             directory that already holds such files is a usage error (exit 2)
@@ -35,7 +35,7 @@
 // --no-aa     disable the 4x MSAA of the main pass (beauty and textured; with --passes=depth it has no effect: exit 2)
 // --passes     any non-empty, duplicate-free comma list of beauty (default), depth, textured (anything else: exit 2).
 //             Textured = lit render where glTF models keep their own materials / textures (the player's look 'textured'; the
-//             doc's `lighting` and `look` drive it, see PrevisLighting / PrevisLook in src/previs/types.ts), same beauty render
+//             doc's `lighting` and `look` drive it, see PrevisLighting / PrevisLook in src/types.ts), same beauty render
 //             pass with 4x MSAA (off with --no-aa). Written next to the beauty output exactly like depth: <out-stem>.textured.mp4
 //             (png-seq: <out-stem>.textured/), with --split-shots <out-stem>.<shot>.textured.mp4 (png-seq:
 //             <out-stem>.textured/<shot>/); --still: <out-stem>.textured.png; --stills: a sibling .textured.png per still.
@@ -43,7 +43,7 @@
 //             --frames / --force / --format apply as for beauty; --camera-json is unchanged (the camera is shared).
 //             ORDER inside ONE page load: all beauty jobs, all depth jobs, then the page swaps to the textured player
 //             (window.previs.setLook('textured')) and runs all textured jobs. Adding textured never changes beauty or depth bytes.
-//             Depth = AI-video conditioning map (see src/sdk/scene-depth.ts): gray
+//             Depth = AI-video conditioning map (see Charturbo web/src/sdk/scene-depth.ts): gray
 //             R=G=B, near = white, background (no geometry) = 0, opaque meshes only. Written next to the beauty output:
 //             <out-stem>.depth.mp4 (or <out-stem>.depth/ with --format=png-seq; same --format codec as beauty, mp4 is
 //             yuv420p limited range so 0..255 becomes 16..235; use png-seq or mp4-lossless for exact codes) and, with
@@ -128,8 +128,8 @@ const MIME = {
   '.ktx2': 'image/ktx2',
 };
 
-const WEB = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const PREVIS = path.join(WEB, 'previs');
+// Repo root: the vite root (render.html, vite.config.ts) and the library sources (src/)
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 const argv = process.argv.slice(2);
 const positional = argv.filter((a) => !a.startsWith('--'));
@@ -169,7 +169,7 @@ function findChrome() {
  * glTF model sources of the doc: relative paths (and file: URLs / absolute fs paths) resolve against the DOC FILE's
  * directory and are served by the vite plugin `previsModels` as `/__previs_models/<index>/<basename>` (no /@fs, no
  * base64 through CDP, 20+ MB models are fine). http(s): / data: / blob: URLs pass through. `srcs` = modelSrcsToLoad(doc)
- * (src/previs/models.ts): the models the player loads (a pure pivot only when a node hangs from its joint).
+ * (src/models.ts): the models the player loads (a pure pivot only when a node hangs from its joint).
  * Returns { urls: src -> served URL, missing: [{src, file}], files: index -> { file, dir } }.
  */
 function collectModels(srcs, docPath) {
@@ -460,13 +460,13 @@ async function main() {
     (!docPath || (still === undefined && !multi && !outPath) || ((still !== undefined || multi) && !stillOut))
   ) {
     throw new Failure(
-      'usage: node scripts/previs-render.mjs <doc.json> <out> [--format=mp4|mp4-lossless|png-seq] [--backend=webgpu|webgl2] [--frames=N]\n' +
+      'usage: node scripts/render.mjs <doc.json> <out> [--format=mp4|mp4-lossless|png-seq] [--backend=webgpu|webgl2] [--frames=N]\n' +
         '         [--shot=<id> | --range=<a>..<b>] [--handles=<seconds>] [--split-shots] [--camera-json=<file>] [--chrome=path] [--no-aa]\n' +
         '         [--passes=<beauty,depth,textured>] [--depth-range=shot|frame|<near>..<far>] [--depth-encoding=inverse|linear] [--depth-near-clip=<meters>]\n' +
-        '       node scripts/previs-render.mjs <doc.json> --still=<seconds> --out=<out.png> [--backend=..] [--passes=..]\n' +
-        '       node scripts/previs-render.mjs <doc.json> --stills=<s>,<s>,.. --out=<dir | pattern.png> [--backend=..] [--passes=..]\n' +
-        '       node scripts/previs-render.mjs <doc.json> --contact=<cols>x<rows> --out=<sheet.png> [--shot=<id> | --range=<a>..<b>] [--tile-width=<px>]\n' +
-        '       node scripts/previs-render.mjs --inspect=<model.glb|.gltf> [--json]\n' +
+        '       node scripts/render.mjs <doc.json> --still=<seconds> --out=<out.png> [--backend=..] [--passes=..]\n' +
+        '       node scripts/render.mjs <doc.json> --stills=<s>,<s>,.. --out=<dir | pattern.png> [--backend=..] [--passes=..]\n' +
+        '       node scripts/render.mjs <doc.json> --contact=<cols>x<rows> --out=<sheet.png> [--shot=<id> | --range=<a>..<b>] [--tile-width=<px>]\n' +
+        '       node scripts/render.mjs --inspect=<model.glb|.gltf> [--json]\n' +
         '  <out> is the mp4 file, or a directory for --format=png-seq (frame_000000.png ...)',
       2,
     );
@@ -666,8 +666,8 @@ async function main() {
     const { createServer } = await import('vite');
     const vitePort = await freePort();
     const vite = await createServer({
-      root: PREVIS,
-      configFile: path.join(PREVIS, 'vite.config.ts'),
+      root: ROOT,
+      configFile: path.join(ROOT, 'vite.config.ts'),
       plugins: [previsModels(models.files)],
       logLevel: 'warn',
       clearScreen: false,
@@ -681,14 +681,14 @@ async function main() {
     let checkedDoc = null;
     let srcsToLoad = [inspectFile];
     if (inspectFile === undefined) {
-      const { validateDoc } = await vite.ssrLoadModule(path.join(WEB, 'src/previs/validate.ts'));
+      const { validateDoc } = await vite.ssrLoadModule(path.join(ROOT, 'src/validate.ts'));
       checkedDoc = validateDoc(doc);
       if (!checkedDoc.ok) {
         for (const i of checkedDoc.issues) console.error(`${i.path}: ${i.message}`);
         throw new Failure(`invalid previs document (${checkedDoc.issues.length} issue${checkedDoc.issues.length === 1 ? '' : 's'})`, 2);
       }
       // Fail fast (exit 1) on a missing model file the player loads, before Chrome starts
-      const { modelSrcsToLoad } = await vite.ssrLoadModule(path.join(WEB, 'src/previs/models.ts'));
+      const { modelSrcsToLoad } = await vite.ssrLoadModule(path.join(ROOT, 'src/models.ts'));
       srcsToLoad = modelSrcsToLoad(doc);
     }
     const found = collectModels(srcsToLoad, inspectFile ?? docPath);

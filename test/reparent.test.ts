@@ -8,10 +8,10 @@ import {
   worldPosition,
   worldTransform,
   type JointFrame,
-} from '../previs/evaluate';
-import { modelSrcsToLoad } from '../previs/models';
-import type { PrevisDoc, PrevisNode, Shot, Vec3 } from '../previs/types';
-import { validateDoc } from '../previs/validate';
+} from '../src/evaluate';
+import { modelSrcsToLoad } from '../src/models';
+import type { PrevisDoc, PrevisNode, Shot, Vec3 } from '../src/types';
+import { validateDoc } from '../src/validate';
 
 // Independent reference: row-major 3x3 matrices, R = Ry * Rx * Rz (engine YXZ)
 type M3 = number[];

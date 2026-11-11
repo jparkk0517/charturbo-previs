@@ -1,10 +1,10 @@
 // Shared conventions for the short film "불씨지기 (The Ember Keeper)": one generator per scene
 // (film/sNN-<name>.gen.ts -> film/sNN-<name>.json). READ-ONLY for scene authors: ask the director for changes.
-// Run a scene from web/: node --experimental-strip-types previs/examples/film/s01-hall.gen.ts
+// Run a scene from the repo root: node --experimental-strip-types examples/film/s01-hall.gen.ts
 import fs from 'node:fs';
 import path from 'node:path';
-import { createMannequin, jointedJointIds, suggestRoleColors, validateDoc, docDuration, retargetParts } from '../../../src/previs/index.ts';
-import type { PrevisDoc, PrevisNode, Rgb, Track, Vec3 } from '../../../src/previs/index.ts';
+import { createMannequin, jointedJointIds, suggestRoleColors, validateDoc, docDuration, retargetParts } from '../../src/index.ts';
+import type { PrevisDoc, PrevisNode, Rgb, Track, Vec3 } from '../../src/index.ts';
 
 // ---- format (identical in every scene) ----
 export const FPS = 24;
@@ -163,7 +163,7 @@ export type Who = 'haon' | 'mentor';
 /**
  * Builds the jointed mannequin `<who>` (ids `<who>.root`, `<who>.handL`, ...) and its skin node `<who>_skin`.
  * Apply motions to `m.nodes`, then call `flatOnly(nodes)` on the result. Only ONE haon and ONE mentor per doc
- * (one Quaternius skin of each per doc; the 1024² textures would allow up to 9 instances, see docs/previs/guide.md "Texture memory").
+ * (one Quaternius skin of each per doc; the 1024² textures would allow up to 9 instances, see docs/guide.md "Texture memory").
  * `writeDoc` adds the skin's hair nodes (`HAIR`, `hairOf`); a scene that writes its doc another way calls `hairOf(skin)`.
  */
 export function character(who: Who, position: Vec3, yaw = 0) {

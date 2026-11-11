@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { modelSrcsToLoad } from '../previs/models';
-import type { PrevisDoc } from '../previs/types';
+import { modelSrcsToLoad } from '../src/models';
+import type { PrevisDoc } from '../src/types';
 
 const doc = (nodes: unknown[]): PrevisDoc => ({ nodes }) as unknown as PrevisDoc;
 const model = (id: string, extra: object = {}) => ({ id, shape: 'model', model: { src: `${id}.glb` }, ...extra });

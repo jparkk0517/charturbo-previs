@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { loadPrevisPlayer } from '../previs/player';
-import type { PrevisDoc, PrevisNode } from '../previs/types';
-import { Charturbo, type WasmCharturboEngineBackend } from '../sdk/charturbo';
+import { loadPrevisPlayer } from '../src/player';
+import type { PrevisDoc, PrevisNode } from '../src/types';
+import { Charturbo, type WasmCharturboEngineBackend } from 'charturbo';
 
 // Real loader + real animator + real Charturbo over a recording fake backend: a static model whose
 // attach point is a mesh-less node must load and place a `parentJoint` child (the empty-socket case).

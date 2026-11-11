@@ -1,10 +1,10 @@
 // Generator for retarget-demo.json: a jointed box mannequin drives a textured skinned character (model.retarget).
-// The Quaternius Superhero (CC0, previs/examples/models/quaternius, UE bone names) follows the mannequin "hero":
+// The Quaternius Superhero (CC0, examples/models/quaternius, UE bone names) follows the mannequin "hero":
 // walk-in, crouch, pickUp of a box, raise arm. 5.5 s, 24 fps, 2 shots.
-// Run from web/: node --experimental-strip-types previs/examples/retarget-demo.gen.ts
+// Run from the repo root: node --experimental-strip-types examples/retarget-demo.gen.ts
 // Render both passes:
-//   npm run previs:render -- previs/examples/retarget-demo.json --stills=1,2.2,3.65,5 --out=out/ --passes=beauty,textured
-//   npm run previs:render -- previs/examples/retarget-demo.json out/retarget-demo.mp4 --split-shots --passes=beauty,textured
+//   npm run previs:render -- examples/retarget-demo.json --stills=1,2.2,3.65,5 --out=out/ --passes=beauty,textured
+//   npm run previs:render -- examples/retarget-demo.json out/retarget-demo.mp4 --split-shots --passes=beauty,textured
 // Looks: the mannequin's blocks are look.show 'flat' (beauty / depth only) and the skinned model 'textured' (lit pass
 // only). The mannequin's pivots are invisible and stay 'both', so the box can hang from the hand pivot in both passes;
 // with retarget.attach the textured pass hangs it from the skinned hand bone instead (the rig's arm is shorter, so its
@@ -12,8 +12,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { applyMotion, createMannequin, crouch, pickUp, raiseArm, retargetParts, validateDoc, walk } from '../../src/previs/index.ts';
-import type { PrevisDoc, PrevisNode, Rgb, Vec3 } from '../../src/previs/index.ts';
+import { applyMotion, createMannequin, crouch, pickUp, raiseArm, retargetParts, validateDoc, walk } from '../src/index.ts';
+import type { PrevisDoc, PrevisNode, Rgb, Vec3 } from '../src/index.ts';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const FPS = 24;

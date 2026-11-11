@@ -1,13 +1,13 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { applyMotion, createMannequin, crouch, lookAt, pickUp } from '../previs/mannequin';
-import { nodeStateAt, worldTransform } from '../previs/evaluate';
-import type { Quat } from '../previs/evaluate';
-import { loadPrevisPlayer } from '../previs/player';
-import { mannequinFrames, prepareRetarget, quatRotate, UE_RETARGET_MAP } from '../previs/retarget';
-import type { NodeState, PrevisDoc, PrevisNode, Vec3 } from '../previs/types';
-import { validateDoc } from '../previs/validate';
+import { applyMotion, createMannequin, crouch, lookAt, pickUp } from '../src/mannequin';
+import { nodeStateAt, worldTransform } from '../src/evaluate';
+import type { Quat } from '../src/evaluate';
+import { loadPrevisPlayer } from '../src/player';
+import { mannequinFrames, prepareRetarget, quatRotate, UE_RETARGET_MAP } from '../src/retarget';
+import type { NodeState, PrevisDoc, PrevisNode, Vec3 } from '../src/types';
+import { validateDoc } from '../src/validate';
 import { drawnScene } from './drawn-scene';
 import { quaterniusRig } from './fixtures/quaternius-rig';
 
@@ -15,7 +15,7 @@ import { quaterniusRig } from './fixtures/quaternius-rig';
 // solver (rig from the JSON fixture, not from the player's nodeMatrix decomposition) and placed by hand on the
 // mannequin root (pivot) and hips (FIT).
 
-const DIR = '../../previs/examples/models/quaternius/';
+const DIR = '../examples/models/quaternius/';
 const GLTF = 'Superhero_Male_FullBody.gltf';
 
 /** The .gltf with its .bin inlined as a data URI and every texture reference dropped (no fetches in node). */
@@ -195,7 +195,7 @@ describe('previs player: model.retarget (Quaternius, UE map)', () => {
 
 describe('previs retarget-demo.json (IK + planted feet)', () => {
   it('drawn mesh lowest point >= -0.01 m on every frame; box-to-hand distance while carried', async () => {
-    const doc: PrevisDoc = JSON.parse(readFileSync(fileURLToPath(new URL('../../previs/examples/retarget-demo.json', import.meta.url)), 'utf8'));
+    const doc: PrevisDoc = JSON.parse(readFileSync(fileURLToPath(new URL('../examples/retarget-demo.json', import.meta.url)), 'utf8'));
     expect(validateDoc(doc).ok).toBe(true);
     const scene = drawnScene();
     const player = await loadPrevisPlayer(scene.sdk, doc, { look: 'textured', resolveModel: () => gltfBytes() });
@@ -238,7 +238,7 @@ describe('previs retarget-demo.json (IK + planted feet)', () => {
 
 describe('previs retarget.attach (retarget-demo.json box)', () => {
   it('textured: the box hangs from the hand_r bone socket (placed like the bone), no pop at the grab; flat: from hero.handR', async () => {
-    const doc: PrevisDoc = JSON.parse(readFileSync(fileURLToPath(new URL('../../previs/examples/retarget-demo.json', import.meta.url)), 'utf8'));
+    const doc: PrevisDoc = JSON.parse(readFileSync(fileURLToPath(new URL('../examples/retarget-demo.json', import.meta.url)), 'utf8'));
     const grab = doc.nodes.find((n) => n.id === 'box')!.tracks!.parent![0].t;
     const dt = 1 / doc.fps;
     // reference hand_r bone world (engine units): separate load posed by the pure solver, placed by hand
@@ -295,7 +295,7 @@ describe('previs retarget.attach (retarget-demo.json box)', () => {
 });
 
 describe('previs retarget review fixes', () => {
-  const demo = (): PrevisDoc => JSON.parse(readFileSync(fileURLToPath(new URL('../../previs/examples/retarget-demo.json', import.meta.url)), 'utf8'));
+  const demo = (): PrevisDoc => JSON.parse(readFileSync(fileURLToPath(new URL('../examples/retarget-demo.json', import.meta.url)), 'utf8'));
 
   it('attach + camera follow of the attached box: no throw, the same camera in both passes', async () => {
     const doc = demo();

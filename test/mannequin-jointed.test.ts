@@ -1,9 +1,9 @@
 import { createHash } from 'node:crypto';
 import { describe, expect, it } from 'vitest';
-import { applyMotion, attachProp, createMannequin, crouch, pickUp, twoBoneIK } from '../previs/mannequin';
-import type { Mannequin } from '../previs/mannequin';
-import { evaluateFrame, worldPosition } from '../previs/evaluate';
-import type { PrevisDoc, PrevisNode, Vec3 } from '../previs/types';
+import { applyMotion, attachProp, createMannequin, crouch, pickUp, twoBoneIK } from '../src/mannequin';
+import type { Mannequin } from '../src/mannequin';
+import { evaluateFrame, worldPosition } from '../src/evaluate';
+import type { PrevisDoc, PrevisNode, Vec3 } from '../src/types';
 
 const RED: [number, number, number] = [1, 0, 0];
 const FPS = 24;

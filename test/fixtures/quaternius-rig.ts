@@ -1,6 +1,6 @@
-import type { Quat } from '../../previs/evaluate';
-import type { Vec3 } from '../../previs/types';
-import type { RetargetRig } from '../../previs/retarget';
+import type { Quat } from '../../src/evaluate';
+import type { Vec3 } from '../../src/types';
+import type { RetargetRig } from '../../src/retarget';
 
 /**
  * Quaternius Universal Base Characters (CC0), Superhero_Male_FullBody.gltf: every node of the default scene in

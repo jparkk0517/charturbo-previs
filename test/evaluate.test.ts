@@ -6,8 +6,8 @@ import {
   evaluateFrame,
   frameCount,
   worldPosition,
-} from '../previs/evaluate';
-import type { Easing, PrevisModelAnimation, PrevisDoc, PrevisNode, Shot, Track, Vec3 } from '../previs/types';
+} from '../src/evaluate';
+import type { Easing, PrevisModelAnimation, PrevisDoc, PrevisNode, Shot, Track, Vec3 } from '../src/types';
 
 const close = (a: number[], b: number[]) => {
   expect(a.length).toBe(b.length);

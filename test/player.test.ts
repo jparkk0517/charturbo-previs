@@ -1,8 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { createPrevisPlayer, eulerYXZToQuat, loadPrevisPlayer, matrixToEulerYXZ, orthonormalFrame, socketTransform } from '../previs/player';
-import type { PrevisDoc, PrevisModel, PrevisNode, Vec3 } from '../previs/types';
-import type { Charturbo } from '../sdk/charturbo';
-import type { GltfDecoders } from '../sdk/scene-gltf';
+import { createPrevisPlayer, eulerYXZToQuat, loadPrevisPlayer, matrixToEulerYXZ, orthonormalFrame, socketTransform } from '../src/player';
+import type { PrevisDoc, PrevisModel, PrevisNode, Vec3 } from '../src/types';
+import type { Charturbo, GltfDecoders } from 'charturbo';
 
 type Call = [string, ...unknown[]];
 

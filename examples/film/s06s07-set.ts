@@ -5,8 +5,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { eulerYXZToQuat, quatToEulerYXZ } from '../../../src/previs/index.ts';
-import type { MotionFragments, PrevisDoc, PrevisNode, Quat, Rgb, Track, Vec3 } from '../../../src/previs/index.ts';
+import { eulerYXZToQuat, quatToEulerYXZ } from '../../src/index.ts';
+import type { MotionFragments, PrevisDoc, PrevisNode, Quat, Rgb, Track, Vec3 } from '../../src/index.ts';
 import { C, EMBER_D, LIGHT, LOOK, PILLAR_FLAT, SRC, WARDEN_H, add, scale, sub } from './common.ts';
 
 export const HERE = path.dirname(fileURLToPath(import.meta.url));

@@ -9,8 +9,8 @@ import {
   shrug,
   twoToneBox,
   walk,
-} from '../previs/mannequin';
-import type { PrevisNode, Track } from '../previs/types';
+} from '../src/mannequin';
+import type { PrevisNode, Track } from '../src/types';
 
 const RED: [number, number, number] = [1, 0, 0];
 const visible = (nodes: PrevisNode[]) => nodes.filter((n) => n.visible !== false);

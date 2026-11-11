@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import type { PrevisDoc } from '../previs/types';
-import { colorDistance, validateDoc } from '../previs/validate';
+import type { PrevisDoc } from '../src/types';
+import { colorDistance, validateDoc } from '../src/validate';
 
 const cam = () => ({
   position: [{ t: 0, v: [0, 1, 5] }],

@@ -1,11 +1,11 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { applyMotion, createMannequin, crouch, lookAt, pickUp } from '../previs/mannequin';
-import { retargetParts } from '../previs/models';
-import { loadPrevisPlayer } from '../previs/player';
-import type { PrevisDoc, PrevisNode } from '../previs/types';
-import { validateDoc } from '../previs/validate';
+import { applyMotion, createMannequin, crouch, lookAt, pickUp } from '../src/mannequin';
+import { retargetParts } from '../src/models';
+import { loadPrevisPlayer } from '../src/player';
+import type { PrevisDoc, PrevisNode } from '../src/types';
+import { validateDoc } from '../src/validate';
 import { drawnScene, mul4 } from './drawn-scene';
 
 // Hair as extra retargeted parts (`retargetParts`): a Quaternius "Rigged to Head Bone" hairstyle on the body's skeleton,
@@ -13,7 +13,7 @@ import { drawnScene, mul4 } from './drawn-scene';
 // the BODY's drawn Head joint (its eyebrow mesh is skinned to Head only: object world x that palette entry) applied to the
 // hair's bind-space vertices (the hair's Head rest world equals the body's, so both share the Head inverse bind matrix).
 
-const EX = '../../previs/examples/';
+const EX = '../examples/';
 type V3 = [number, number, number];
 
 /** A .gltf (path relative to this file) with its .bin inlined and every texture reference dropped (no fetches in node). */

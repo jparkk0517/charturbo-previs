@@ -1,6 +1,6 @@
-// Generator for the glTF demo models (previs/examples/models/*.glb) and model-demo.json.
-// Procedural geometry only, no external assets. Run from web/:
-//   node --experimental-strip-types previs/examples/models.gen.ts
+// Generator for the glTF demo models (examples/models/*.glb) and model-demo.json.
+// Procedural geometry only, no external assets. Run from the repo root:
+//   node --experimental-strip-types examples/models.gen.ts
 // Files: mug.glb (static, 0.1 m), tiny-mm.glb (same mug authored in millimeters, 100 units tall),
 // walker.glb (rigid segments on a node hierarchy, ~1.75 m, clips `walk` 1 s and `wave` 2 s),
 // tail.glb (skinned strip, 4 joints, clip `sway`).

@@ -1,16 +1,16 @@
 # Compressed glTF fixtures
 
-Generated from the uncompressed models in `web/previs/examples/models/{mug,walker,tail}.glb`
+Generated from the uncompressed models in `examples/models/{mug,walker,tail}.glb`
 with `@gltf-transform/cli` **4.5.1** (released 2026-09-28; run via npx, not a dependency).
 Decoders for tests: `draco3d` 1.5.9, `meshoptimizer` 1.3.0 (devDependencies only).
 
-## Reproduce (from `web/`)
+## Reproduce (from the repo root)
 
 ```sh
-D=src/__tests__/fixtures/gltf-compressed
+D=test/fixtures/gltf-compressed
 for m in mug walker tail; do
-  npx -y @gltf-transform/cli@4.5.1 draco   previs/examples/models/$m.glb $D/$m.draco.glb
-  npx -y @gltf-transform/cli@4.5.1 meshopt previs/examples/models/$m.glb $D/$m.meshopt.glb
+  npx -y @gltf-transform/cli@4.5.1 draco   examples/models/$m.glb $D/$m.draco.glb
+  npx -y @gltf-transform/cli@4.5.1 meshopt examples/models/$m.glb $D/$m.meshopt.glb
 done
 npx -y @gltf-transform/cli@4.5.1 inspect $D/tail.draco.glb   # per-file summary
 ```

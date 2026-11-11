@@ -1,14 +1,14 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { eulerYXZToQuat, nodeStateAt } from '../previs/evaluate';
-import type { Quat } from '../previs/evaluate';
-import { loadPrevisPlayer } from '../previs/player';
-import { modelSrcsToLoad } from '../previs/models';
-import { modelSourceFrames, modelSourceRest, prepareRetarget, quatRotate, rigRestPose, scaleFrames, UE_RETARGET_MAP, WALKER_SOURCE_MAP } from '../previs/retarget';
-import type { MannequinJointFrame } from '../previs/retarget';
-import type { PrevisDoc, PrevisNode, Vec3 } from '../previs/types';
-import { validateDoc } from '../previs/validate';
+import { eulerYXZToQuat, nodeStateAt } from '../src/evaluate';
+import type { Quat } from '../src/evaluate';
+import { loadPrevisPlayer } from '../src/player';
+import { modelSrcsToLoad } from '../src/models';
+import { modelSourceFrames, modelSourceRest, prepareRetarget, quatRotate, rigRestPose, scaleFrames, UE_RETARGET_MAP, WALKER_SOURCE_MAP } from '../src/retarget';
+import type { MannequinJointFrame } from '../src/retarget';
+import type { PrevisDoc, PrevisNode, Vec3 } from '../src/types';
+import { validateDoc } from '../src/validate';
 import { drawnScene, mul4 } from './drawn-scene';
 import { quaterniusRig } from './fixtures/quaternius-rig';
 import { walkerRig } from './fixtures/walker-rig';
@@ -17,7 +17,7 @@ import { walkerRig } from './fixtures/walker-rig';
 // the FLAT pass draws (walker mesh objects: object chain x mesh matrix, ground lock included), the target is posed by
 // the pure solver on the JSON fixture rigs and placed by hand on the source node's world frame.
 
-const EX = '../../previs/examples/';
+const EX = '../examples/';
 const QDIR = EX + 'models/quaternius/';
 const GLTF = 'Superhero_Male_FullBody.gltf';
 const WS = 10;

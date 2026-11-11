@@ -1,14 +1,14 @@
 // Generator for coffee-hero.json (vertical Shorts previs, "Coffee Hero").
-// Run from web/: node --experimental-strip-types previs/examples/coffee-hero.gen.ts
+// Run from the repo root: node --experimental-strip-types examples/coffee-hero.gen.ts
 // Optional env HANDOFF_OUT=<path.md> also writes the Korean handoff prompt.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { applyMotion, attachProp, createMannequin, jump, raiseArm, shrug, walk } from '../../src/previs/mannequin.ts';
-import type { MotionFragments } from '../../src/previs/mannequin.ts';
-import { buildHandoff, suggestRoleColors } from '../../src/previs/handoff.ts';
-import { validateDoc } from '../../src/previs/validate.ts';
-import type { Keyframe, PrevisDoc, PrevisNode, Rgb, Shot, Track, Vec3 } from '../../src/previs/types.ts';
+import { applyMotion, attachProp, createMannequin, jump, raiseArm, shrug, walk } from '../src/mannequin.ts';
+import type { MotionFragments } from '../src/mannequin.ts';
+import { buildHandoff, suggestRoleColors } from '../src/handoff.ts';
+import { validateDoc } from '../src/validate.ts';
+import type { Keyframe, PrevisDoc, PrevisNode, Rgb, Shot, Track, Vec3 } from '../src/types.ts';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const FPS = 24;
@@ -25,7 +25,7 @@ const SPEED = 5.2; // m/s sprint
 const X_TAKE = 3.1;
 const X_LAND = -3.1;
 const X_START = X_TAKE + SPEED * T_TAKE;
-const BUS_SPEED = 8; // m/s, travels +z -> -z, centre passes z=0 at t=5.0
+// bus: 8 m/s, travels +z -> -z, centre passes z=0 at t=5.0
 const busKeys: [number, number][] = [
   [0, -30],
   [2.5, -14],
@@ -153,7 +153,6 @@ for (const [i, x] of [16, 7.5, -8, -17].entries()) {
 }
 
 // ---- camera ----
-const clampHold = (t: number, a: number, b: number) => Math.min(b, Math.max(a, t));
 function heroPos(t: number): Vec3 {
   if (t <= T_TAKE) return [X_START - SPEED * t, 0, 0];
   if (t < T_LAND) {

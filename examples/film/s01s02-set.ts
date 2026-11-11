@@ -5,7 +5,7 @@
 // along z = 0; two rows of KayKit pillars at z = +-3; skeletons sleep in the bays between the pillars; the stone
 // pedestal with the ember stands mid-hall at the origin. Cameras stay on the +z side of the action (screen left ->
 // right = +x = toward the gate).
-import type { PrevisDoc, PrevisNode, Rgb, Vec3 } from '../../../src/previs/index.ts';
+import type { PrevisDoc, PrevisNode, Rgb, Vec3 } from '../../src/index.ts';
 import { C, LIGHT, LOOK, MINION_H, PILLAR_FLAT, SRC, STONE, STONE_LIGHT } from './common.ts';
 
 // ---- layout (meters) ----
@@ -32,7 +32,7 @@ export const MENTOR_YAW = Math.atan2(HAON_END[0] - MENTOR_POS[0], HAON_END[2] - 
 // ---- skeletons: Skeleton_Minion asleep in the bays between the pillars ----
 // Texture budget: with the two Quaternius skins at 2048² only 7 KayKit model nodes fit (each loads its own 1024^2
 // texture), so the set is primitives and the KayKit models are the gate + these 6 sleepers. (Since the skins were
-// downscaled to 1024², 37 KayKit nodes fit next to them: docs/previs/guide.md "Texture memory".)
+// downscaled to 1024², 37 KayKit nodes fit next to them: docs/guide.md "Texture memory".)
 // Lie_Pose / Skeletons_Inactive_Floor_Pose at yaw 0 lie along z with the skull at about -0.95 m local z (toward the
 // aisle for the +z row); the -z row is turned by ~pi so its skulls face the aisle too.
 export type Sleeper = { id: string; pos: Vec3; yaw: number; clip: string };

@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { applyMotion, createMannequin, crouch, lookAt, pickUp, raiseArm, walk } from '../previs/mannequin';
-import type { Mannequin } from '../previs/mannequin';
-import { eulerYXZToQuat, nodeStateAt } from '../previs/evaluate';
-import type { Quat } from '../previs/evaluate';
-import type { PrevisNode, Vec3 } from '../previs/types';
+import { applyMotion, createMannequin, crouch, lookAt, pickUp, raiseArm, walk } from '../src/mannequin';
+import type { Mannequin } from '../src/mannequin';
+import { eulerYXZToQuat, nodeStateAt } from '../src/evaluate';
+import type { Quat } from '../src/evaluate';
+import type { PrevisNode, Vec3 } from '../src/types';
 import {
   KAYKIT_RETARGET_MAP,
   UE_RETARGET_MAP,
@@ -15,8 +15,8 @@ import {
   PLANT_LOW,
   rigRestPose,
   shortestArc,
-} from '../previs/retarget';
-import type { MannequinJointFrame, RetargetLimbResult, RetargetRig, Retargeter } from '../previs/retarget';
+} from '../src/retarget';
+import type { MannequinJointFrame, RetargetLimbResult, RetargetRig, Retargeter } from '../src/retarget';
 import { QUATERNIUS_ROWS, quaterniusRig } from './fixtures/quaternius-rig';
 
 // KayKit Character Pack Adventures, Knight.glb: the 41 skin joints (skin order) with their rest local TRS, read

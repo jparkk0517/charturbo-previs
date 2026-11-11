@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { buildHandoff, colorName, suggestRoleColors } from '../previs/handoff';
-import type { PrevisDoc, Rgb } from '../previs/types';
+import { buildHandoff, colorName, suggestRoleColors } from '../src/handoff';
+import type { PrevisDoc, Rgb } from '../src/types';
 
 function dist(a: Rgb, b: Rgb): number {
   // coarse rgb distance is enough to check distinctness here

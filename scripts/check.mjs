@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-// Previs renderer regression check: stills of every previs/examples/*.json (+ a pure-pivot socket doc and the
+// Previs renderer regression check: stills of every examples/*.json (+ a pure-pivot socket doc and the
 // compressed walker fixtures), rendered with --no-aa, must contain ONLY palette colors.
 //
-//   node scripts/previs-check.mjs [--backend=webgpu|webgl2] [--keep=<dir>] [--only=<substring>] [--selftest]
+//   node scripts/check.mjs [--backend=webgpu|webgl2] [--keep=<dir>] [--only=<substring>] [--selftest]
 //
 // Palette = doc.background + every node color + every role color. Rule: a pixel matches palette color c when, in every
 // channel, |byte - 255*c| <= 0.5 (i.e. the byte is round(255*c); no further tolerance). Per still it reports the
@@ -16,10 +16,10 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { decodePng, encodePng } from '../e2e/lib/image.mjs';
+import { decodePng, encodePng } from './lib/image.mjs';
 
-const webDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const renderer = path.join(webDir, 'scripts', 'previs-render.mjs');
+const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const renderer = path.join(rootDir, 'scripts', 'render.mjs');
 const TOL = 0.5;
 const STILLS = 3;
 
@@ -31,7 +31,7 @@ const only = opt('only');
 const selftest = args.includes('--selftest');
 for (const a of args) {
   if (!/^--(backend|keep|only)=/.test(a) && a !== '--selftest') {
-    console.error(`unknown argument ${a}\nusage: previs-check.mjs [--backend=webgpu|webgl2] [--keep=<dir>] [--only=<substring>] [--selftest]`);
+    console.error(`unknown argument ${a}\nusage: check.mjs [--backend=webgpu|webgl2] [--keep=<dir>] [--only=<substring>] [--selftest]`);
     process.exit(2);
   }
 }
@@ -101,14 +101,14 @@ function extraDocs() {
     ...base, title: 'socket check',
     nodes: [
       ground,
-      { id: 'walker', shape: 'model', model: { src: rel(path.join(webDir, 'previs/examples/models/walker.glb')), animation: { clip: 'walk', loop: 'repeat' } },
+      { id: 'walker', shape: 'model', model: { src: rel(path.join(rootDir, 'examples/models/walker.glb')), animation: { clip: 'walk', loop: 'repeat' } },
         color: [0.9, 0.35, 0.15], position: [0, 0.875, 0], rotation: [0, 0, 0], size: [0.7, 1.75, 0.5] },
       { id: 'sword', shape: 'box', role: 'prop', parent: 'walker', parentJoint: 'lowerArm.R', color: [0.2, 0.45, 0.9], position: [0, -0.2, 0.1], rotation: [0, 0, 0], size: [0.05, 0.5, 0.05] },
     ],
     shots: [cam([0, 1.2, 4], [0, 0.9, 0])],
   };
   // compressed walkers / mug / tail (Draco + meshopt)
-  const fx = path.join(webDir, 'src/__tests__/fixtures/gltf-compressed');
+  const fx = path.join(rootDir, 'test/fixtures/gltf-compressed');
   const items = [['walker.draco', 'walker'], ['walker.meshopt', 'walker'], ['mug.draco', 'mug'], ['mug.meshopt', 'mug'], ['tail.draco', 'tail'], ['tail.meshopt', 'tail']];
   const colors = [[0.9, 0.35, 0.15], [0.25, 0.75, 0.35], [0.2, 0.45, 0.9], [0.95, 0.8, 0.15], [0.6, 0.3, 0.8], [0.1, 0.7, 0.7]];
   const clip = { walker: 'walk', tail: 'sway' };
@@ -139,7 +139,7 @@ let failed = false;
 const t0 = Date.now();
 try {
   if (selftest) {
-    const p = path.join(webDir, 'previs/examples/flat-swatches.json');
+    const p = path.join(rootDir, 'examples/flat-swatches.json');
     const doc = JSON.parse(fs.readFileSync(p, 'utf8'));
     const pal = palette(doc);
     const [s] = render('selftest', p, doc);
@@ -158,7 +158,7 @@ try {
     process.exitCode = ok ? 0 : 1;
   } else {
     const jobs = [];
-    const exDir = path.join(webDir, 'previs/examples');
+    const exDir = path.join(rootDir, 'examples');
     for (const f of fs.readdirSync(exDir).filter((x) => x.endsWith('.json')).sort()) {
       const p = path.join(exDir, f);
       jobs.push([f.replace(/\.json$/, ''), p, JSON.parse(fs.readFileSync(p, 'utf8'))]);

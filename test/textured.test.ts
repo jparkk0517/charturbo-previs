@@ -1,13 +1,13 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it, vi } from 'vitest';
-import { createPrevisPlayer, loadPrevisPlayer, type PrevisPlayer, type PrevisPlayerLook } from '../previs/player';
-import type { PrevisDoc, PrevisNode } from '../previs/types';
-import { Charturbo, type WasmCharturboEngineBackend } from '../sdk/charturbo';
+import { createPrevisPlayer, loadPrevisPlayer, type PrevisPlayer, type PrevisPlayerLook } from '../src/player';
+import type { PrevisDoc, PrevisNode } from '../src/types';
+import { Charturbo, type WasmCharturboEngineBackend } from 'charturbo';
 
 // Textured (lit) look of the previs player, and the flat look staying exactly as it was (see player.ts LOOKS).
 
-const dir = fileURLToPath(new URL('../../previs/examples/', import.meta.url));
+const dir = fileURLToPath(new URL('../examples/', import.meta.url));
 const bytes = (name: string): ArrayBuffer => {
   const b = readFileSync(`${dir}models/${name}`);
   return b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength) as ArrayBuffer;

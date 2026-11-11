@@ -1,17 +1,17 @@
-// Generator for textured-demo.json: a small stone hall (KayKit CC0 dungeon + skeleton models, previs/examples/models/kaykit)
+// Generator for textured-demo.json: a small stone hall (KayKit CC0 dungeon + skeleton models, examples/models/kaykit)
 // for the lit `textured` pass (doc.lighting, per-node look). 4 s, 24 fps, 2 shots.
-// Run from web/: node --experimental-strip-types previs/examples/textured-demo.gen.ts
+// Run from the repo root: node --experimental-strip-types examples/textured-demo.gen.ts
 // Render both passes:
-//   npm run previs:render -- previs/examples/textured-demo.json --stills=0.5,2,3.5 --out=out/ --passes=beauty,textured
-//   npm run previs:render -- previs/examples/textured-demo.json out/textured-demo.mp4 --split-shots --passes=beauty,textured
+//   npm run previs:render -- examples/textured-demo.json --stills=0.5,2,3.5 --out=out/ --passes=beauty,textured
+//   npm run previs:render -- examples/textured-demo.json out/textured-demo.mp4 --split-shots --passes=beauty,textured
 // Shows: model materials kept in the textured pass, primitive lit look (crate: look.color / roughness / metallic),
 // look.show: the flat box `warrior_proxy` is drawn only by the flat pass, the Skeleton_Warrior model only by the
 // textured pass; `lighting` with key + env + one rim light.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { validateDoc } from '../../src/previs/index.ts';
-import type { PrevisDoc, PrevisNode, Rgb, Vec3 } from '../../src/previs/index.ts';
+import { validateDoc } from '../src/index.ts';
+import type { PrevisDoc, PrevisNode, Rgb, Vec3 } from '../src/index.ts';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const FPS = 24;

@@ -1,10 +1,10 @@
 // 불씨지기 S08 "다시 타오르는 불" (45 s): Haon places the ember on the altar, kneels, the ember and six braziers
 // flare, skeletons in the dark collapse, Haon rises, the mentor appears in the entrance, crane up to a top-down.
-// Run from web/: node --experimental-strip-types previs/examples/film/s08-rekindled.gen.ts
+// Run from the repo root: node --experimental-strip-types examples/film/s08-rekindled.gen.ts
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { applyMotion, walk, crouch, pickUp, evaluateFrame, worldPosition } from '../../../src/previs/index.ts';
-import type { PrevisDoc, PrevisNode, Shot, Vec3, Track } from '../../../src/previs/index.ts';
+import { applyMotion, walk, crouch, pickUp, evaluateFrame, worldPosition } from '../../src/index.ts';
+import type { PrevisDoc, PrevisNode, Shot, Vec3, Track } from '../../src/index.ts';
 import { BG, C, FPS, LIGHT, LOOK, PILLAR_FLAT, ROLES, SIZE, SRC, AVOID, MINION_H, EMBER_D, character, flatOnly, writeDoc, sample, r4, add } from './common.ts';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));

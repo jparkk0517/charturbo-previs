@@ -1,5 +1,5 @@
-// 불씨지기 S05 "버려진 검" (The Abandoned Blade), 40 s. Run from web/:
-//   node --experimental-strip-types previs/examples/film/s05-blade.gen.ts
+// 불씨지기 S05 "버려진 검" (The Abandoned Blade), 40 s. Run from the repo root:
+//   node --experimental-strip-types examples/film/s05-blade.gen.ts
 // A small side chamber of the crypt (cold blue, one dim warm brazier). Haon enters screen left -> right with the ember
 // in her LEFT hand, finds an old sword beside a slumped dead skeleton, picks it up with her RIGHT hand (pickUp +
 // tracks.parent, gate-raid sword pattern). A skeleton she walked past rises behind her, advances and chops; she
@@ -7,8 +7,8 @@
 // sword, looks to the far doorway and walks out through it (screen right).
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { applyMotion, evalTrack, evaluateFrame, eulerYXZToQuat, pickUp, quatToEulerYXZ, walk, raiseArm, worldTransform } from '../../../src/previs/index.ts';
-import type { MotionFragments, PrevisDoc, PrevisMarker, PrevisNode, Quat, Shot, Track, Vec3 } from '../../../src/previs/index.ts';
+import { applyMotion, evalTrack, evaluateFrame, eulerYXZToQuat, pickUp, quatToEulerYXZ, walk, raiseArm, worldTransform } from '../../src/index.ts';
+import type { MotionFragments, PrevisDoc, PrevisMarker, PrevisNode, Quat, Shot, Track, Vec3 } from '../../src/index.ts';
 import {
   AVOID, BG, C, EMBER_D, FPS, LIGHT, LOOK, MINION_H, PILLAR_FLAT, ROLES, SIZE, SRC, WORLD_SCALE,
   add, character, flatOnly, frameTimes, lerp, lerp3, r4, sample, scale, sub, writeDoc, yawTo,

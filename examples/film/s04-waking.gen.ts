@@ -1,12 +1,12 @@
-// S04 깨어나는 자들 (45 s). node --experimental-strip-types previs/examples/film/s04-waking.gen.ts
+// S04 깨어나는 자들 (45 s). node --experimental-strip-types examples/film/s04-waking.gen.ts
 // Crypt corridor along +x (Haon's travel, screen left -> right with the camera on the +z side). Four Skeleton_Minion
 // lie in the corridor ahead, awaken one after another, stand and patrol toward -x in a file along z = PATH_Z. Haon backs
 // off, slips behind the far-row pillar PILLAR_HIDE (z = -3) and crouches against the far wall while they pass on the
 // corridor side of that pillar, then rises and sneaks on toward +x.
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { applyMotion, crouch, evaluateFrame, walk, worldTransform } from '../../../src/previs/index.ts';
-import type { MotionFragments, PrevisDoc, PrevisMarker, PrevisNode, Rgb, Shot, Vec3 } from '../../../src/previs/index.ts';
+import { applyMotion, crouch, evaluateFrame, walk, worldTransform } from '../../src/index.ts';
+import type { MotionFragments, PrevisDoc, PrevisMarker, PrevisNode, Rgb, Shot, Vec3 } from '../../src/index.ts';
 import { AVOID, BG, C, EMBER_D, FPS, LIGHT, LOOK, MINION_H, PILLAR_FLAT, ROLES, SIZE, SRC, STONE, STONE_LIGHT, add, character, flatOnly, lerp, r4, sample, writeDoc, yawTo } from './common.ts';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));

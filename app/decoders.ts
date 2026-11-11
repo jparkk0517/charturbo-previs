@@ -10,7 +10,7 @@
  * emitted as an asset by a build), fetched and handed over as `wasmBinary`, so the emscripten module
  * never touches node:fs or guesses a path.
  */
-import type { GltfDecoders } from '../src/sdk/scene-gltf';
+import type { GltfDecoders } from 'charturbo';
 // @ts-ignore vite `?url` import (no ambient type in this tsconfig)
 import dracoWasmUrl from 'draco3d/draco_decoder.wasm?url';
 

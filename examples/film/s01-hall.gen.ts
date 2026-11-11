@@ -1,11 +1,11 @@
-// 불씨지기 S01 "불씨의 전당" (40 s). Run from web/: node --experimental-strip-types previs/examples/film/s01-hall.gen.ts
+// 불씨지기 S01 "불씨의 전당" (40 s). Run from the repo root: node --experimental-strip-types examples/film/s01-hall.gen.ts
 // 하온 enters the keeper's hall, walks the aisle between sleeping skeletons, crouches to look at one, rises and walks
 // to the pedestal where 도원 waits beside the ember; they end facing each other across the pedestal (S02 starts there).
 // Set, skeletons, pedestal and lighting: s01s02-set.ts (shared with S02).
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { applyMotion, crouch, evalTrack, walk } from '../../../src/previs/index.ts';
-import type { MotionFragments, PrevisDoc, PrevisMarker, PrevisNode, Shot, Track, Vec3 } from '../../../src/previs/index.ts';
+import { applyMotion, crouch, evalTrack, walk } from '../../src/index.ts';
+import type { MotionFragments, PrevisDoc, PrevisMarker, PrevisNode, Shot, Track, Vec3 } from '../../src/index.ts';
 import { AVOID, BG, C, FPS, LOOK, ROLES, SIZE, add, character, flatOnly, r4, sample, writeDoc, yawTo } from './common.ts';
 import {
   EMBER_PED_D, HAON_END, HAON_END_YAW, MENTOR_POS, MENTOR_YAW, PED, SLEEPERS, emberOnPed, hallLighting, hallSet, sleeper, sleeperNode,

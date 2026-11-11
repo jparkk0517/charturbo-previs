@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { evaluateFrame, frameCount, worldPosition } from '../previs/evaluate';
-import { buildHandoff, suggestRoleColors } from '../previs/handoff';
-import { applyMotion, attachProp, createMannequin, jump, raiseArm, walk } from '../previs/mannequin';
-import type { PrevisDoc } from '../previs/types';
-import { validateDoc } from '../previs/validate';
+import { evaluateFrame, frameCount, worldPosition } from '../src/evaluate';
+import { buildHandoff, suggestRoleColors } from '../src/handoff';
+import { applyMotion, attachProp, createMannequin, jump, raiseArm, walk } from '../src/mannequin';
+import type { PrevisDoc } from '../src/types';
+import { validateDoc } from '../src/validate';
 
 /** Mannequin (all limbs) + motions + prop + two shots must pass the validator and evaluate to sane frames. */
 function buildDoc(): PrevisDoc {

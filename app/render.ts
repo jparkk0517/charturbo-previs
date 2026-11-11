@@ -1,5 +1,5 @@
 /**
- * Offline previs render page. `scripts/previs-render.mjs` injects the doc as `window.__previsDoc`
+ * Offline previs render page. `scripts/render.mjs` injects the doc as `window.__previsDoc`
  * (before this module runs, with `window.__previsModels` = model.src -> served URL), loads `render.html?backend=webgpu|webgl2[&aa=0]`, waits for
  * `window.__previs.done` and then pulls frames via `window.previs`:
  *
@@ -9,12 +9,12 @@
  *   window.previs.measureFrame(i) -> { near_m, far_m } | null: foreground min / max planar depth (meters) of frame i, from a
  *                                'packed' depth render (SDK readDepthRange); null = no foreground pixel
  *   window.previs.contact(spec) -> Promise<string>  PNG data URL of a contact sheet: tiles of the given frames, each with a label
- *                                bar below (`t=<seconds> <shotId>`), composed on a 2D canvas (see scripts/previs-render.mjs --contact)
+ *                                bar below (`t=<seconds> <shotId>`), composed on a 2D canvas (see scripts/render.mjs --contact)
  *   window.previs.frame(i, { depth: { encoding: 'inverse'|'linear', near_m, far_m } }) -> PNG of the depth pass of frame i
  *                                (gray R=G=B, near = white, background 0; range in meters, engine units = meters * worldScale)
  *   window.previs.setLook('flat' | 'textured') -> Promise<void>: disposes the current player and loads a new one with the same
  *                                options plus `look` (PrevisLoadOptions.look; the doc's `lighting` / `look` drive the textured one,
- *                                see src/previs/types.ts). The page starts 'flat'. Every later frame / measureFrame / contact
+ *                                see src/types.ts). The page starts 'flat'. Every later frame / measureFrame / contact
  *                                call uses the new player. Idempotent for the current look. If the load rejects, the page is broken: frame / measureFrame /
  *                                contact throw `setLook('<look>') failed: <cause>; reload the page` until a setLook succeeds (any look retries).
  *
@@ -32,16 +32,16 @@
  * The canvas is exactly doc.size CSS px == backing px (devicePixelRatio forced to 1). A frame is
  * rendered and copied in the same task by `toDataURL` (a WebGPU canvas loses its contents once
  * presented), with `pixelRatio: 1` so nothing is resized or scaled, and no DOM overlay.
- * `backend=webgl2` hides `navigator.gpu` before the engine starts (same as e2e/main.ts).
+ * `backend=webgl2` hides `navigator.gpu` before the engine starts (same as Charturbo web/e2e/main.ts).
  */
 import { Charturbo } from 'charturbo';
-import { docDuration, evaluateFrame, frameCount } from '../src/previs/evaluate';
+import { docDuration, evaluateFrame, frameCount } from '../src/evaluate';
 import { DEFAULT_WORLD_SCALE, engineCameraMatrices } from './camera';
-import { loadPrevisPlayer, type PrevisPlayerLook } from '../src/previs/player';
-import type { PrevisPlayer } from '../src/previs/player';
-import type { Issue, PrevisDoc } from '../src/previs/types';
-import { modelSrcsToLoad } from '../src/previs/models';
-import { validateDoc } from '../src/previs/validate';
+import { loadPrevisPlayer, type PrevisPlayerLook } from '../src/player';
+import type { PrevisPlayer } from '../src/player';
+import type { Issue, PrevisDoc } from '../src/types';
+import { modelSrcsToLoad } from '../src/models';
+import { validateDoc } from '../src/validate';
 import { gltfExtensions, loadDecodersFor } from './decoders';
 
 interface PrevisInfo {

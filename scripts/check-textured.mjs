@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 // Textured-pass regression check: png-seq renders of previs docs with --passes=beauty,textured.
 //
-//   node scripts/previs-check-textured.mjs [doc.json ...] [--frames=N] [--backend=webgpu|webgl2] [--keep=<dir>] [--selftest]
+//   node scripts/check-textured.mjs [doc.json ...] [--frames=N] [--backend=webgpu|webgl2] [--keep=<dir>] [--selftest]
 //
-// Default docs: previs/examples/textured-demo.json, model-demo.json, gate-raid.json, retarget-demo.json; default --frames=24 (the first N
-// frames of each doc, for speed). Per doc it renders (previs-render.mjs --format=png-seq): beauty only (A), beauty +
+// Default docs: examples/textured-demo.json, model-demo.json, gate-raid.json, retarget-demo.json; default --frames=24 (the first N
+// frames of each doc, for speed). Per doc it renders (render.mjs --format=png-seq): beauty only (A), beauty +
 // textured (B), and beauty + textured again (C). Checks (any failure -> exit 1, else 0):
 //   1 beauty    : every beauty png of A equals B byte for byte (sha1) -> adding the textured pass never changes beauty.
 //   2 determin. : every beauty png of B equals C byte for byte (same backend, same machine); every textured png of B
@@ -28,11 +28,11 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { decodePng } from '../e2e/lib/image.mjs';
+import { decodePng } from './lib/image.mjs';
 
-const webDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const renderer = path.join(webDir, 'scripts', 'previs-render.mjs');
-const EX = path.join(webDir, 'previs', 'examples');
+const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const renderer = path.join(rootDir, 'scripts', 'render.mjs');
+const EX = path.join(rootDir, 'examples');
 const DEFAULT_DOCS = ['textured-demo.json', 'model-demo.json', 'gate-raid.json', 'retarget-demo.json'].map((f) => path.join(EX, f));
 
 export const LIMITS = { clipped: 0.01, crushed: 0.05, lumaMin: 0.25, lumaMax: 0.65, iou: 0.98, rerunPixels: 1e-4 };
@@ -128,7 +128,7 @@ const opt = (n) => args.find((a) => a.startsWith(`--${n}=`))?.slice(n.length + 3
 for (const a of args) {
   if (!a.startsWith('--')) continue;
   if (!/^--(frames|backend|keep)=/.test(a) && a !== '--selftest') {
-    console.error(`unknown argument ${a}\nusage: previs-check-textured.mjs [doc.json ...] [--frames=N] [--backend=webgpu|webgl2] [--keep=<dir>] [--selftest]`);
+    console.error(`unknown argument ${a}\nusage: check-textured.mjs [doc.json ...] [--frames=N] [--backend=webgpu|webgl2] [--keep=<dir>] [--selftest]`);
     process.exit(2);
   }
 }
@@ -152,7 +152,7 @@ const cleanup = () => { if (tmp !== null) fs.rmSync(tmp, { recursive: true, forc
 
 function render(docPath, out, passes) {
   const r = spawnSync(process.execPath, [renderer, docPath, out, '--format=png-seq', `--frames=${frames}`, `--passes=${passes}`, '--force', ...(backend ? [`--backend=${backend}`] : [])], {
-    cwd: webDir, encoding: 'utf8', maxBuffer: 1 << 28,
+    cwd: rootDir, encoding: 'utf8', maxBuffer: 1 << 28,
   });
   if (r.status !== 0) throw new Error(`render ${path.basename(docPath)} --passes=${passes} exit ${r.status}\n${r.stderr.split('\n').slice(-12).join('\n')}`);
   return r.stderr.split('\n').filter((l) => /warn/i.test(l));

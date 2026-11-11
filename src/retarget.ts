@@ -275,7 +275,7 @@ const walkerSide = (s: 'L' | 'R'): RetargetSourceJoint[] => {
 };
 
 /**
- * Source map of `models/walker.glb` (previs/examples/models.gen.ts buildWalker: rigid node hierarchy, no skin, no hand
+ * Source map of `models/walker.glb` (examples/models.gen.ts buildWalker: rigid node hierarchy, no skin, no hand
  * or foot nodes). `spine` reads `torso`; hands and feet are points at the ends of the forearm and shin nodes and turn
  * with them.
  */

@@ -1,0 +1,15 @@
+node_modules/
+dist/
+coverage/
+.vite/
+*.tgz
+*.tsbuildinfo
+*.log
+.DS_Store
+.env
+.env.*
+
+# Render outputs
+out/
+out*.mp4
+*.cuts.json

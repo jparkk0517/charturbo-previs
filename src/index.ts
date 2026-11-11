@@ -1,10 +1,10 @@
 /**
  * Public barrel for the previs document model and its pure helpers: types, evaluate, validate, handoff,
- * mannequin, models. Scripts (`previs/examples/*.gen.ts`) import from here.
+ * mannequin, models. Scripts (`examples/*.gen.ts`) import from here.
  *
  * NOT re-exported: `player.ts`. It imports the Charturbo SDK at runtime (scene, glTF loader), so importing
  * it pulls in the engine. Import it directly from its own module:
- *   import { loadPrevisPlayer } from '../../src/previs/player.ts';   // path relative to the importing file
+ *   import { loadPrevisPlayer } from '../src/player.ts';   // path relative to the importing file
  */
 
 export type {

@@ -1,20 +1,18 @@
-// Dev server of the offline previs renderer (scripts/previs-render.mjs starts it programmatically).
-// `charturbo` imports resolve to the sources like in the examples site.
-import { resolve } from 'node:path';
+// Dev server of the browser viewer (viewer.html) and the offline renderer (render.html; scripts/render.mjs starts it
+// programmatically), plus the vitest config. The root is the repo root, so examples/**/*.json and their models are
+// served as static files.
+/// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
 
-const root = import.meta.dirname;
-const src = resolve(root, '../src');
-
 export default defineConfig({
-  // root = web/previs: the viewer (viewer.html) fetches examples/**/*.json and their models from here as static files
-  root,
+  root: import.meta.dirname,
   base: './',
-  resolve: {
-    alias: [{ find: /^charturbo$/, replacement: resolve(src, 'index.ts') }],
-  },
-  // draco3d's decoder is a CommonJS file: pre-bundle it so `import()` gets its module.exports (see decoders.ts)
+  // draco3d's decoder is a CommonJS file: pre-bundle it so `import()` gets its module.exports (see app/decoders.ts)
   optimizeDeps: { include: ['draco3d/draco_decoder_nodejs.js'] },
-  // wasm-pkg may be a symlink to another checkout: do not restrict file serving to the repo
+  // charturbo may be linked from another checkout (npm link / file:): do not restrict file serving to the repo
   server: { fs: { strict: false } },
+  test: {
+    environment: 'node',
+    include: ['test/**/*.test.ts'],
+  },
 });

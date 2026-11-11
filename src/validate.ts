@@ -42,7 +42,7 @@ function totalEnd(shots: unknown[]): number {
   return m;
 }
 
-/** Engine limits of a point light (src/sdk/scene-lights.ts) in engine units = meters * worldScale. */
+/** Engine limits of a point light (Charturbo web/src/sdk/scene-lights.ts) in engine units = meters * worldScale. */
 const RIM_MAX_INTENSITY = 1e6;
 const RIM_MIN_RANGE = 0.01;
 

@@ -1,6 +1,6 @@
-import type { Quat } from '../../previs/evaluate';
-import type { Vec3 } from '../../previs/types';
-import type { RetargetRig } from '../../previs/retarget';
+import type { Quat } from '../../src/evaluate';
+import type { Vec3 } from '../../src/types';
+import type { RetargetRig } from '../../src/retarget';
 
 const qAxis = (axis: 0 | 1 | 2, deg: number): Quat => {
   const h = (deg * Math.PI) / 360;
@@ -10,7 +10,7 @@ const qAxis = (axis: 0 | 1 | 2, deg: number): Quat => {
 };
 
 /**
- * models/walker.glb (previs/examples/models.gen.ts buildWalker): every node in the loader's depth-first order with its
+ * models/walker.glb (examples/models.gen.ts buildWalker): every node in the loader's depth-first order with its
  * rest local TRS (file units = meters, 1.75 tall, feet on y = 0, facing +z; its ".R" limbs sit at +x).
  */
 export function walkerRig(): RetargetRig {

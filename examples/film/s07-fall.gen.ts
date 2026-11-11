@@ -1,12 +1,12 @@
-// 불씨지기 S07 쓰러지는 거인 (The Giant Falls), 40 s. Run from web/: node --experimental-strip-types previs/examples/film/s07-fall.gen.ts
+// 불씨지기 S07 쓰러지는 거인 (The Giant Falls), 40 s. Run from the repo root: node --experimental-strip-types examples/film/s07-fall.gen.ts
 // Starts in S06's end state (Haon hidden behind the pillar, the warden facing it). The warden chops again: the axe
 // smashes the pillar, which topples (pivot on its base edge, accelerating fall) and crashes flat; Haon bolts out across
 // the open floor, turns, charges; the warden sweeps a slice at her, she leaps over the fallen pillar to its legs and
 // slashes; the giant staggers, turns, drops forward and crashes (its axe flies out of its hand onto the floor). Silence:
 // she lowers her sword and lets it fall, turns to the far altar and walks off east (screen left -> right) while the
 // camera cranes up and back over the fallen giant. Shared layout / props / FK: ./s06s07-set.ts.
-import { applyMotion, crouch, eulerYXZToQuat, evaluateFrame, quatToEulerYXZ, walk, worldTransform } from '../../../src/previs/index.ts';
-import type { MotionFragments, PrevisDoc, PrevisMarker, PrevisNode, Quat, Shot, Track, Vec3 } from '../../../src/previs/index.ts';
+import { applyMotion, crouch, eulerYXZToQuat, evaluateFrame, quatToEulerYXZ, walk, worldTransform } from '../../src/index.ts';
+import type { MotionFragments, PrevisDoc, PrevisMarker, PrevisNode, Quat, Shot, Track, Vec3 } from '../../src/index.ts';
 import { AVOID, BG, FPS, ROLES, SIZE, add, character, flatOnly, frameTimes, lerp, lerp3, r4, sample, scale, sub, writeDoc, yawTo } from './common.ts';
 import {
   ALTAR, AXE_OFF, AXE_S, CHEST_BACK, E_FALL, HERE, H_SPOT, P, PILLAR_SIZE, SWORD_SIZE, SWORD_TEX_IN_HAND, SWORD_TEX_SIZE, U, W1, WY, YAW_HIDE, YAW_PILLAR,

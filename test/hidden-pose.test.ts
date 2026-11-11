@@ -1,15 +1,15 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { loadPrevisPlayer } from '../previs/player';
-import type { PrevisDoc, PrevisNode } from '../previs/types';
+import { loadPrevisPlayer } from '../src/player';
+import type { PrevisDoc, PrevisNode } from '../src/types';
 import { drawnScene } from './drawn-scene';
 
 // Hidden model nodes are posed without sending anything to the engine (GltfAnimator.setDrawEnabled(false)):
 // props on their joints stay exact and the first visible frame equals an always-visible run.
 
 const bytes = (name: string): ArrayBuffer => {
-  const b = readFileSync(fileURLToPath(new URL(`../../previs/examples/models/${name}`, import.meta.url)));
+  const b = readFileSync(fileURLToPath(new URL(`../examples/models/${name}`, import.meta.url)));
   return b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength) as ArrayBuffer;
 };
 const resolveModel = (src: string) => bytes(src.replace(/^models\//, ''));

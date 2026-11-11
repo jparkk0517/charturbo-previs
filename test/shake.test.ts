@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { evaluateFrame, perlin1 } from '../previs/evaluate';
-import type { CameraShake, PrevisDoc } from '../previs/types';
-import { validateDoc } from '../previs/validate';
+import { evaluateFrame, perlin1 } from '../src/evaluate';
+import type { CameraShake, PrevisDoc } from '../src/types';
+import { validateDoc } from '../src/validate';
 
 const doc = (shake?: CameraShake): PrevisDoc => ({
   version: 1,
