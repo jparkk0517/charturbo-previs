@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "Previs for AI video: author a mannequin / glTF blockout as a JSON timeline doc, preview it in the browser and render it to video with the Charturbo 3D engine",
+  "author": "jparkk0517 <redysj0517@naver.com>",
   "type": "module",
   "license": "MIT",
   "engines": {
